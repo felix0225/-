@@ -1,6 +1,6 @@
 ﻿namespace Crawlerkeqq
 {
-    class Course
+    internal class Course
     {
         public string ImgUrl { get; set; }
         public string ClassName { get; set; }
