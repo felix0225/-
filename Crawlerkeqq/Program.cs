@@ -17,27 +17,27 @@ namespace Crawlerkeqq
             Console.WriteLine("請輸入要取得免費課程的名稱，輸入完後按下Enter");
             var keyword = Console.ReadLine();
 
-            var client = new HttpClient();
-
             Console.WriteLine($"取得免費的{keyword}課程");
 
-            var CourseList = new List<Course>();
+            var client = new HttpClient();
 
-            var url = $"https://ke.qq.com/course/list/{keyword}?price_min=0&price_max=0";
-            var responseBody = client.GetStringAsync(url).GetAwaiter().GetResult();
+            var baseUrl = $"https://ke.qq.com/course/list/{keyword}?price_min=0&price_max=0";
+            var responseBody = client.GetStringAsync(baseUrl).GetAwaiter().GetResult();
             var parser = new HtmlParser();
             var doc = parser.ParseDocument(responseBody);
 
             //取得最大頁數
             var maxPage = Convert.ToInt32(doc.QuerySelector("body > section.main.autoM.clearfix > div > div.sort-page > a:nth-child(6)").InnerHtml);
-            Console.WriteLine($"共有{maxPage}頁");
-
-            for (var i = 1; i <= maxPage; i++)
+            Console.WriteLine($"共有 {maxPage} 頁");
+            
+            var CourseList = new List<Course>();
+            int i;
+            for (i = 1; i <= maxPage; i++)
             {
                 Console.WriteLine($"目前頁數 {i}");
 
-                url = $"https://ke.qq.com/course/list/{keyword}?price_min=0&price_max=0&page={i}";
-                responseBody = client.GetStringAsync(url).GetAwaiter().GetResult();
+                var Url = $"{baseUrl}&page={i}";
+                responseBody = client.GetStringAsync(Url).GetAwaiter().GetResult();
                 parser = new HtmlParser();
                 doc = parser.ParseDocument(responseBody);
 
@@ -70,7 +70,7 @@ namespace Crawlerkeqq
                              orderby c.People descending
                              select c;
 
-            //將結果輸出成 Html 檔
+            //組 Html 檔案內容
             var sb = new StringBuilder();
             sb.Append("<!DOCTYPE html>");
             sb.Append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
@@ -79,11 +79,13 @@ namespace Crawlerkeqq
             sb.Append($"<title>取得騰訊課堂{keyword}免費的課程</title>");
             sb.Append("</head>");
             sb.Append("<body>");
-            sb.Append("<table style=\"width: 50%; margin: auto; border:3px #cccccc solid;\" border='1'>");
-            sb.Append("<tr><th>圖片</th><th>課程名稱</th><th>報名人數</th></tr>");
+            sb.Append("<table style=\"width: 50%; margin: auto; border:3px #cccccc solid;\" border=\"1\">");
+            sb.Append("<tr><th>No</th><th>圖片</th><th>課程名稱</th><th>報名人數</th></tr>");
+            var no = 0;
             foreach (var item in CourseSort)
             {
-                sb.Append($"<tr><td><a href='{item.ClassLink}'><img src='{item.ImgUrl}'></a></td><td><a href='{item.ClassLink}'>{item.ClassName}</a></td><td>{item.People}</td></tr>");
+                no++;
+                sb.Append($"<tr><td>{no}</td><td><a href='{item.ClassLink}'><img src='{item.ImgUrl}'></a></td><td><a href='{item.ClassLink}'>{item.ClassName}</a></td><td>{item.People}</td></tr>");
             }
             sb.Append("</table>");
             sb.Append("</body>");
@@ -96,6 +98,7 @@ namespace Crawlerkeqq
 
             Console.WriteLine($"輸出的檔案位置：{fileName}");
 
+            //將結果輸出成 Html 檔
             File.WriteAllText(fileName, sb.ToString());
         }
     }
