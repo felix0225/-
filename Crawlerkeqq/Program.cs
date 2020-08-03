@@ -70,13 +70,15 @@ namespace Crawlerkeqq
                              orderby c.People descending
                              select c;
 
+            var fileTitle = $"騰訊課堂免費的{keyword}課程";
+
             //組 Html 檔案內容
             var sb = new StringBuilder();
             sb.Append("<!DOCTYPE html>");
             sb.Append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
             sb.Append("<head>");
             sb.Append("<meta charset=\"utf-8\" />");
-            sb.Append($"<title>取得騰訊課堂{keyword}免費的課程</title>");
+            sb.Append($"<title>{fileTitle}</title>");
             sb.Append("</head>");
             sb.Append("<body>");
             sb.Append("<table style=\"width: 50%; margin: auto; border:3px #cccccc solid;\" border=\"1\">");
@@ -92,7 +94,7 @@ namespace Crawlerkeqq
             sb.Append("</html>");
 
             //判斷檔案是否存在,如果存在先刪除
-            var fileName = $"騰訊課堂免費的{keyword}課程.html";
+            var fileName = $"{fileTitle}.html";
             var fi = new FileInfo(fileName);
             if (fi.Exists) fi.Delete();
 
