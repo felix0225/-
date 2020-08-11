@@ -81,7 +81,7 @@ namespace Crawlerkeqq
             sb.Append($"<title>{fileTitle}</title>");
             sb.Append("</head>");
             sb.Append("<body>");
-            sb.Append("<table style=\"width: 50%; margin: auto; border:3px #cccccc solid;\" border=\"1\">");
+            sb.Append("<table style=\"width: 60%; margin: auto; border:3px #cccccc solid;\" border=\"1\">");
             sb.Append("<tr><th>No</th><th>圖片</th><th>課程名稱</th><th>報名人數</th><th>狀態</th></tr>");
             var no = 0;
             foreach (var item in CourseSort)
