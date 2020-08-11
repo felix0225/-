@@ -82,12 +82,12 @@ namespace Crawlerkeqq
             sb.Append("</head>");
             sb.Append("<body>");
             sb.Append("<table style=\"width: 50%; margin: auto; border:3px #cccccc solid;\" border=\"1\">");
-            sb.Append("<tr><th>No</th><th>圖片</th><th>課程名稱</th><th>報名人數</th></tr>");
+            sb.Append("<tr><th>No</th><th>圖片</th><th>課程名稱</th><th>報名人數</th><th>狀態</th></tr>");
             var no = 0;
             foreach (var item in CourseSort)
             {
                 no++;
-                sb.Append($"<tr><td>{no}</td><td><a href='{item.ClassLink}'><img src='{item.ImgUrl}'></a></td><td><a href='{item.ClassLink}'>{item.ClassName}</a></td><td>{item.People}</td></tr>");
+                sb.Append($"<tr><td>{no}</td><td><a href='{item.ClassLink}' target='_blank'><img src='{item.ImgUrl}'></a></td><td><a href='{item.ClassLink}' target='_blank'>{item.ClassName}</a></td><td>{item.People}</td><td></td></tr>");
             }
             sb.Append("</table>");
             sb.Append("</body>");
